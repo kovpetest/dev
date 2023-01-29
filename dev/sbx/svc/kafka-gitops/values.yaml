@@ -1,0 +1,126 @@
+kafka-gitops:
+  replicaCount: 1
+
+  image:
+    repository: devshawn/kafka-gitops
+#    repository: 503565054880.dkr.ecr.eu-central-1.amazonaws.com/kafka-gitops
+    pullPolicy: IfNotPresent
+    # Overrides the image tag whose default is the chart appVersion.
+    tag: "0.2.15"
+
+  imagePullSecrets: []
+  nameOverride: ""
+  fullnameOverride: ""
+
+  serviceAccount:
+    create: true
+    # Annotations to add to the service account
+    annotations: {}
+    name: ""
+
+  restartPolicy: Never
+  backoffLimit: 1
+  ### args ###
+  # --skip-acls Do not take ACLs into account during plans or applies.
+  # --no-delete Disable the ability to delete resources.
+  # --verbose Show more detail during execution
+  # --version Print the current version of this tool
+  ###
+  state:
+    action: plan
+  #  action: apply
+    args: ""
+    state.yaml: # state.yaml configuration
+      topics:
+        integration-newtopic:
+          partitions: 2
+          replication: 1
+          configs:
+            cleanup.policy: compact
+        script_test:
+          partitions: 2
+          replication: 1
+        __amazon_msk_canary:
+          partitions: 2
+          replication: 1
+          configs:
+            cleanup.policy: compact
+            retention.ms: 86400000
+
+      users:
+        kovpe-user:
+          principal: User:kovpe_5i5mvj
+        mtls-admin:
+          principal: User:CN=admin
+        sasl-admin:
+          principal: User:erik_2tk21v
+
+
+      customUserAcls:
+        kovpe-user:
+          cluster-alter:
+            name: kafka-cluster
+            type: CLUSTER
+            pattern: LITERAL
+            host: "*"
+            operation: ALTER
+            permission: ALLOW
+            
+  TruststoreJKS:
+    name: jkstruststore
+  KeystoreJKS:
+    name: jkskeystore
+
+  ## default vars 
+  bootstrap:
+    servers: b-1.sresandboxmskeksmsk.xdz7fy.c5.kafka.eu-central-1.amazonaws.com:9094,b-3.sresandboxmskeksmsk.xdz7fy.c5.kafka.eu-central-1.amazonaws.com:9094,b-2.sresandboxmskeksmsk.xdz7fy.c5.kafka.eu-central-1.amazonaws.com:9094 
+    
+  environment:
+    - name: KAFKA_SECURITY_PROTOCOL
+      value: SSL
+    - name: KAFKA_SSL_TRUSTSTORE_LOCATION
+      value: "/tmp/truststore.jks"
+    - name: KAFKA_SSL_KEYSTORE_LOCATION
+      value: "/tmp/keystore.jks"
+    - name: KAFKA_BOOTSTRAP_SERVERS
+      value: b-1.sresandboxmskeksmsk.xdz7fy.c5.kafka.eu-central-1.amazonaws.com:9094,b-3.sresandboxmskeksmsk.xdz7fy.c5.kafka.eu-central-1.amazonaws.com:9094,b-2.sresandboxmskeksmsk.xdz7fy.c5.kafka.eu-central-1.amazonaws.com:9094
+
+  extraArgs:
+    - name: KAFKA_SSL_TRUSTSTORE_PASSWORD
+      valueFrom:
+        secretKeyRef:
+          name: keystore-auth
+          key: truststore
+    - name: KAFKA_SSL_KEYSTORE_PASSWORD
+      valueFrom:
+        secretKeyRef:
+          name: keystore-auth
+          key: keystore
+    - name: KAFKA_SSL_KEY_PASSWORD
+      valueFrom:
+        secretKeyRef:
+          name: keystore-auth
+          key: keystore
+
+  podAnnotations: {}
+
+  podSecurityContext: {}
+    # fsGroup: 2000
+
+  securityContext: {}
+  
+  resources:
+    limits:
+      cpu: 300m
+      memory: 256Mi
+    requests:
+      cpu: 100m
+      memory: 128Mi
+
+  nodeSelector:
+    node: working
+
+  tolerations: []
+
+  affinity: {}
+

@@ -1,0 +1,29 @@
+#apiVersion: argoproj.io/v1alpha1
+#kind: Application
+#metadata:
+#  name: vault
+#  namespace: argo-cd
+#spec:
+#  project: sre
+#  source:
+#    targetRevision: HEAD
+#    path: dev/sre/svc/vault
+#    repoURL: 'git@github.com:kovpetest/argo-cd.git'
+#  destination:
+#    namespace: vault
+#    name: sre-sandbox-platform
+#    server: https://AC6DAE4C00F8C829F8B2F66F7DC2282C.gr7.eu-central-1.eks.amazonaws.com
+#    server: https://11B7C9D016A17EEAFAE1E969CB9EC19E.gr7.eu-central-1.eks.amazonaws.com
+#  clusterResourceWhitelist:
+#  - group: 'rbac.authorization.k8s.io'
+#    kind: 'ClusterRoleBinding'
+#  - group: 'rbac.authorization.k8s.io'
+#    kind: 'ClusterRole'
+#  - group: 'admissionregistration.k8s.io'
+#    kind: 'MutatingWebhookConfiguration'
+#  syncPolicy:
+#    automated:
+#      selfHeal: true
+#    syncOptions:
+#    - Validate=false
+#    - CreateNamespace=true

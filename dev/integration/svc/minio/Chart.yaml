@@ -1,0 +1,8 @@
+apiVersion: v2
+description: MultiCloud Object Storage
+name: minio
+version: 10.1.13
+dependencies:
+  - name: minio
+    version: 10.1.13
+    repository: https://charts.bitnami.com/bitnami

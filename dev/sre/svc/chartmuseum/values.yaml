@@ -1,0 +1,28 @@
+env:
+  existingSecret: chartmuseum-auth
+  existingSecretMappings:
+    BASIC_AUTH_USER: BASIC_AUTH_USER
+    BASIC_AUTH_PASS: BASIC_AUTH_PASS
+  open:
+    STORAGE: local
+    DISABLE_API: "false"
+    DEBUG: true
+    LOG_JSON: true
+persistence:
+  enabled: true
+  accessMode: ReadWriteOnce
+  size: 8Gi
+  storageClassnName: gp2
+ingress:
+  annotations:
+    alb.ingress.kubernetes.io/scheme: internet-facing
+    alb.ingress.kubernetes.io/target-type: ip
+    alb.ingress.kubernetes.io/listen-ports: '[{"HTTPS":443}]'
+    alb.ingress.kubernetes.io/certificate-arn: arn:aws:acm:eu-central-1:403027025526:certificate/e23d9610-4056-4186-8228-1759f4ec39b6
+    alb.ingress.kubernetes.io/ssl-redirect: '443'
+  enabled: true
+  ingressClassName: alb
+  hosts:
+  - name: chartmuseum.sre.sandbox-mbh.net
+    path: /
+    tls: false

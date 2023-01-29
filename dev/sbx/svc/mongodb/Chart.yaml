@@ -1,0 +1,8 @@
+apiVersion: v2
+description: mongodb
+name: mongodb
+version: 12.1.12
+dependencies:
+  - name: mongodb
+    version: 12.1.12
+    repository: https://harbor.sre.sandbox-mbh.net/chartrepo/test

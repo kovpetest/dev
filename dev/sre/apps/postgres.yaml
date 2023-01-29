@@ -1,0 +1,19 @@
+#apiVersion: argoproj.io/v1alpha1
+#kind: Application
+#metadata:
+#  name: postgres
+#  namespace: argo-cd
+#spec:
+#  project: sre
+#  source:
+#    repoURL: git@github.com:kovpetest/argo-cd.git
+#    path: dev/sre/svc/postgres
+#    targetRevision: HEAD
+#  destination:
+#    namespace: customerid
+#    server: https://AC6DAE4C00F8C829F8B2F66F7DC2282C.gr7.eu-central-1.eks.amazonaws.com
+#  syncPolicy:
+#    automated:
+#      selfHeal: true
+#    syncOptions:
+#    - CreateNamespace=true

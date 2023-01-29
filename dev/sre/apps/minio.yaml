@@ -1,0 +1,20 @@
+#apiVersion: argoproj.io/v1alpha1
+#kind: Application
+#metadata:
+#  name: minio-dev
+#  namespace: argo-cd
+#spec:
+#  project: sre
+#  source:
+#    repoURL: git@github.com:kovpetest/argo-cd.git
+#    path: dev/sre/svc/minio
+#    targetRevision: HEAD
+#  destination:
+#    namespace: integration
+#    name: sre-sandbox-platform  #root-example cluster
+#  syncPolicy:
+#    automated:
+#      selfHeal: true
+#      prune: true
+#    syncOptions:
+#    - CreateNamespace=true

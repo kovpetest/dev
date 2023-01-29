@@ -1,0 +1,20 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: kafka
+  namespace: argo-cd
+spec:
+  project: sre
+  source:
+    targetRevision: HEAD
+    path: dev/sre/svc/kafka
+    repoURL: 'git@github.com:kovpetest/argo-cd.git'
+  destination:
+    namespace: integration
+    name: https://kubernetes.default.svc
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+    - CreateNamespace=true

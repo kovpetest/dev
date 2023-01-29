@@ -1,0 +1,17 @@
+minio:
+  image:
+    repository: quay.io/minio/minio
+    tag: 2022.2.26-debian-10-r0
+  mode: standalone
+  resources:
+    limits:
+      cpu: 500m
+      memory: 2Gi
+    requests:
+      cpu: 100m
+      memory: 128Mi
+#  existingSecret: ""
+  persistence:
+    storageClass: gp2
+    accessMode: ReadWriteOnce
+    size: 2Gi

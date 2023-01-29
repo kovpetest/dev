@@ -1,0 +1,4 @@
+postgresql:
+  global:
+    postgresql:
+      existingSecret: postgres-postgresql

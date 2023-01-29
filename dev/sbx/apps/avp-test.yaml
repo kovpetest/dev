@@ -1,0 +1,31 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: avp-test
+  namespace: argocd
+spec:
+  destination:
+    namespace: sbx-1
+    server: https://AC6DAE4C00F8C829F8B2F66F7DC2282C.gr7.eu-central-1.eks.amazonaws.com
+  project: sbx-dev
+  source:
+    path: dev/sbx/svc/avp-test
+    repoURL: git@github.com:kovpetest/argo-cd.git
+    targetRevision: main
+    plugin:
+      env:
+        - name: VAULT_ADDR
+          value: 'https://vault-server.sre.sandbox-mbh.net'
+        - name: AVP_ROLE_ID
+          value: 'dc294e1e-cb13-3a0b-0cc8-0e73fb20054b'
+        - name: AVP_SECRET_ID
+          value: '9d274a92-beff-dfce-777b-0378b837dca6'
+        - name: AVP_TYPE
+          value: vault
+        - name: AVP_AUTH_TYPE
+          value: approle
+      name: argocd-vault-plugin
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true

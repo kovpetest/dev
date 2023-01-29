@@ -1,0 +1,8 @@
+apiVersion: v2
+description: kafka-gitops
+name: kafka-gitops
+version: 0.3.0
+dependencies:
+  - name: kafka-gitops
+    version: 0.3.0
+    repository: https://charts.tools.sandbox-mbh.net

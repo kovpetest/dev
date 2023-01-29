@@ -1,0 +1,6 @@
+minio:
+  auth:
+    rootUser: "root"
+    rootPassword: "password"
+  persistence:
+    size: 2Gi

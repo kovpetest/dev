@@ -1,0 +1,19 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: minio
+  namespace: argo-cd
+spec:
+  project: sre
+  source:
+    repoURL: git@github.com:kovpetest/argo-cd.git
+    path: dev/integration/svc/minio
+    targetRevision: HEAD
+  destination:
+    namespace: integration
+    server: https://AC6DAE4C00F8C829F8B2F66F7DC2282C.gr7.eu-central-1.eks.amazonaws.com
+  syncPolicy:
+    automated:
+      selfHeal: true
+    syncOptions:
+    - CreateNamespace=true

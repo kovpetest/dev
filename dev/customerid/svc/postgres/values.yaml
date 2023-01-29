@@ -1,0 +1,6 @@
+postgresql:
+  global:
+    postgresql:
+      auth:
+        postgresPassword: "8jl6DKwu3Vg0qPsE0ySQ"
+#        existingSecret: postgres-postgresql

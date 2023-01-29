@@ -1,0 +1,69 @@
+global:
+  enabled: true
+  imagePullSecrets: []
+ui:
+  enabled: true
+injector:
+  enabled: true
+  image:
+    repository: "425141139457.dkr.ecr.eu-central-1.amazonaws.com/vault/vault-k8s"
+    tag: "0.14.2" # <- for vault v1.9.3
+#    tag: "0.13.1" # <- for vault v1.8.3
+    pullPolicy: IfNotPresent
+  agentImage:
+    repository: "425141139457.dkr.ecr.eu-central-1.amazonaws.com/vault/vault"
+    tag: "1.9.3"
+  agentDefaults:
+    cpuLimit: "501m"
+    cpuRequest: "250m"
+    memLimit: "128Mi"
+    memRequest: "64Mi"
+    template: "json"
+  authPath: "auth/k8s-sre-cluster"
+  logLevel: "info"
+  logFormat: "json"
+  namespaceSelector:
+    matchLabels:
+      vault-agent-injection: enabled
+server:
+  image:
+    repository: "425141139457.dkr.ecr.eu-central-1.amazonaws.com/vault/vault"
+    tag: "1.9.3"
+    pullPolicy: IfNotPresent
+  logLevel: "info"
+  logFormat: "json"
+  resources:
+    requests:
+      memory: 256Mi
+      cpu: 250m
+    limits:
+      memory: 1Gi
+      cpu: 750m
+  ingress:
+    enabled: true
+    ingressClassName: "alb"
+    annotations:
+      alb.ingress.kubernetes.io/target-type: ip
+      alb.ingress.kubernetes.io/scheme: internet-facing
+      alb.ingress.kubernetes.io/listen-ports: '[{"HTTPS":443}]'
+      alb.ingress.kubernetes.io/certificate-arn: arn:aws:acm:eu-central-1:403027025526:certificate/8ebe9d35-432e-4a3b-be93-0794b048d9fd #vault-server.sre....
+      alb.ingress.kubernetes.io/certificate-arn: 
+    activeService: true
+    hosts:
+      - host: vault-server.sre.sandbox-mbh.net
+#       - host: vault.mkb-shared-infra-preprod.aws.mbh-foundation.com
+  authDelegator:
+    enabled: true
+  dataStorage:
+    enabled: true
+    size: 1Gi
+    mountPath: "/vault/data"
+    # Name of the storage class to use.  If null it will use the
+    # configured default Storage Class.
+    storageClass: null
+    accessMode: ReadWriteOnce
+  ha:
+    enabled: true
+    replicas: 2
+    raft:
+      enabled: true

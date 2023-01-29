@@ -1,0 +1,19 @@
+#apiVersion: argoproj.io/v1alpha1
+#kind: Application
+#metadata:
+#  name: chartmuseum
+#  namespace: argo-cd
+#spec:
+#  destination:
+#    namespace: chartmuseum
+#    name: sre-sandbox-platform
+#  project: sre
+#  source:
+#    targetRevision: HEAD
+#    path: dev/sre/svc/chartmuseum
+#    repoURL: https://github.com/kovpetest/argo-cd.git
+#  syncPolicy:
+#    automated:
+#      selfHeal: true
+#    syncOptions:
+#    - CreateNamespace=true

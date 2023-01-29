@@ -1,0 +1,17 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: mongodb
+  namespace: argocd
+spec:
+  project: sbx-dev
+  source:
+    repoURL: git@github.com:kovpetest/argo-cd.git
+    path: dev/sbx/svc/mongodb
+    targetRevision: HEAD
+  destination:
+    namespace: sbx-3
+    name: sre-sandbox-platform
+  syncPolicy:
+    automated:
+      selfHeal: false

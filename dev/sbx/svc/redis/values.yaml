@@ -1,0 +1,12 @@
+redis:
+  auth:
+    enabled: false
+  cluster:
+    enabled: true
+    slaveCount: 1
+  master:
+    persistence:
+      size: 1Gi
+  slave:
+    persistence:
+      size: 1Gi
