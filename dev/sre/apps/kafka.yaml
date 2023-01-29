@@ -10,8 +10,8 @@ spec:
     path: dev/sre/svc/kafka
     repoURL: 'git@github.com:kovpetest/argo-cd.git'
   destination:
-    namespace: integration
-    name: https://kubernetes.default.svc
+    namespace: kafka
+    server: https://kubernetes.default.svc
   syncPolicy:
     automated:
       prune: true
