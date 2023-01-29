@@ -8,7 +8,7 @@ spec:
   source:
     targetRevision: HEAD
     path: dev/sre/svc/kafka
-    repoURL: 'git@github.com:kovpetest/argo-cd.git'
+    repoURL: 'git@github.com:kovpetest/dev.git'
   destination:
     namespace: kafka
     server: https://kubernetes.default.svc
